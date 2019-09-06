@@ -64,7 +64,7 @@ type OptionResponse struct {
 
 //GetCheckinOption 获取打卡规则
 func GetCheckinOption(token string, body io.Reader) (*OptionResponse, error) {
-	apiUrl := fmt.Sprintf(`https://qyapi.weixin.qq.com/cgi-bin/checkin/getcheckindata?access_token=%s`, token)
+	apiUrl := fmt.Sprintf(`https://qyapi.weixin.qq.com/cgi-bin/checkin/getcheckinoption?access_token=%s`, token)
 	resp, err := http.Post(apiUrl, "application/json", body)
 	if err != nil {
 		return nil, err
