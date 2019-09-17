@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/wuwenbao/wechat/util"
+	"github.com/wuwenbao/wechat/internal/response"
 )
 
 type User struct {
@@ -69,9 +69,8 @@ func Get(token, userId string) (*User, error) {
 	}
 	defer resp.Body.Close()
 	info := new(User)
-	if err := util.ReadBody(resp.Body, info); err != nil {
+	if err := response.ReadBody(resp.Body, info); err != nil {
 		return nil, err
 	}
 	return info, nil
 }
-

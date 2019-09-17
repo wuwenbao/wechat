@@ -5,7 +5,7 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/wuwenbao/wechat/util"
+	"github.com/wuwenbao/wechat/internal/response"
 )
 
 type OptionResponse struct {
@@ -71,7 +71,7 @@ func GetCheckinOption(token string, body io.Reader) (*OptionResponse, error) {
 	}
 	defer resp.Body.Close()
 	res := new(OptionResponse)
-	if err := util.ReadBody(resp.Body, res); err != nil {
+	if err := response.ReadBody(resp.Body, res); err != nil {
 		return nil, err
 	}
 	return res, nil

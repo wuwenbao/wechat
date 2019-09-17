@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/wuwenbao/wechat/util"
-
 	"net/http"
+
+	"github.com/wuwenbao/wechat/internal/response"
 )
 
 type Wxacode struct {
@@ -55,7 +55,7 @@ func (w *Wxacode) create(api string, body io.Reader) (io.Reader, error) {
 		ContentType string          `json:"contentType"`
 		Buffer      json.RawMessage `json:"buffer"`
 	})
-	if err = util.ReadBody(resp.Body, data); err != nil {
+	if err = response.ReadBody(resp.Body, data); err != nil {
 		return nil, err
 	}
 	return bytes.NewReader(data.Buffer), nil

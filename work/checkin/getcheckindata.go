@@ -5,7 +5,7 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/wuwenbao/wechat/util"
+	"github.com/wuwenbao/wechat/internal/response"
 )
 
 type DataResponse struct {
@@ -33,7 +33,7 @@ func GetCheckinData(token string, body io.Reader) (*DataResponse, error) {
 	}
 	defer resp.Body.Close()
 	res := new(DataResponse)
-	if err := util.ReadBody(resp.Body, res); err != nil {
+	if err := response.ReadBody(resp.Body, res); err != nil {
 		return nil, err
 	}
 	return res, nil

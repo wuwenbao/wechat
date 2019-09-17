@@ -1,12 +1,7 @@
 package work
 
 import (
-	"fmt"
-	"net/http"
-	"sync"
-	"time"
-
-	"github.com/wuwenbao/wechat/util"
+	"github.com/wuwenbao/wechat/internal/token"
 )
 
 type Confer interface {
@@ -16,19 +11,19 @@ type Confer interface {
 }
 
 type conf struct {
-	corpId     string
-	corpSecret string
-	tokenFunc  util.TokenFunc
+	corpId       string
+	corpSecret   string
+	tokenAdapter token.Adapter
 }
 
-func Conf(corpId, corpSecret string, tf util.TokenFunc) *conf {
+func Conf(corpId, corpSecret string, tokenAdapter token.Adapter) *conf {
 	c := &conf{
-		corpId:     corpId,
-		corpSecret: corpSecret,
-		tokenFunc:  tf,
+		corpId:       corpId,
+		corpSecret:   corpSecret,
+		tokenAdapter: tokenAdapter,
 	}
-	if c.tokenFunc == nil {
-		c.tokenFunc = c.defaultTokenFunc()
+	if c.tokenAdapter == nil {
+		c.tokenAdapter = token.DefaultToken()
 	}
 	return c
 }
@@ -42,43 +37,5 @@ func (c *conf) CorpSecret() string {
 }
 
 func (c *conf) Token() (string, error) {
-	return c.tokenFunc(c.CorpId(), c.CorpSecret())
-}
-
-func (c *conf) defaultTokenFunc() util.TokenFunc {
-	token := new(Token)
-	mutex := new(sync.Mutex)
-	return func(corpId, corpSecret string) (s string, e error) {
-		mutex.Lock()
-		defer mutex.Unlock()
-		if token == nil || time.Now().After(token.ExpiresAt) {
-			at, err := getAccessToken(corpId, corpSecret)
-			if err != nil {
-				return "", err
-			}
-			token = at
-			return at.AccessToken, nil
-		}
-		return token.AccessToken, nil
-	}
-}
-
-type Token struct {
-	AccessToken string `json:"access_token"`
-	ExpiresAt   time.Time
-}
-
-func getAccessToken(corpId, corpSecret string) (*Token, error) {
-	apiUrl := fmt.Sprintf(`https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=%s&corpsecret=%s`, corpId, corpSecret)
-	resp, err := http.Get(apiUrl)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	data := new(Token)
-	if err := util.ReadBody(resp.Body, data); err != nil {
-		return nil, err
-	}
-	data.ExpiresAt = time.Now().Add(time.Second * 7000)
-	return data, nil
+	return c.tokenAdapter.GetToken(c.CorpId(), c.CorpSecret())
 }

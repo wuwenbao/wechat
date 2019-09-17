@@ -6,6 +6,7 @@ import (
 	"io"
 	"net/http"
 
+	response2 "github.com/wuwenbao/wechat/internal/response"
 	"github.com/wuwenbao/wechat/util"
 )
 
@@ -48,7 +49,7 @@ func Balance(tlsConfig *tls.Config, body io.Reader) error {
 	}
 	defer resp.Body.Close()
 
-	response := new(util.ResponseError)
+	response := new(response2.ResponseError)
 	err = xml.NewDecoder(resp.Body).Decode(response)
 	if err != nil {
 		return err

@@ -5,11 +5,11 @@ import (
 	"errors"
 	"io"
 
-	"github.com/wuwenbao/wechat/util"
+	"github.com/wuwenbao/wechat/internal/response"
 )
 
 type PaidResponse struct {
-	util.ResponseError
+	response.ResponseError
 	Appid              string `xml:"appid"`
 	MchId              string `xml:"mch_id"`
 	DeviceInfo         string `xml:"device_info"`

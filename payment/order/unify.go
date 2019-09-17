@@ -5,12 +5,12 @@ import (
 	"io"
 	"net/http"
 
+	"github.com/wuwenbao/wechat/internal/response"
 	"github.com/wuwenbao/wechat/payment"
-	"github.com/wuwenbao/wechat/util"
 )
 
 type UnifyResponse struct {
-	util.ResponseError
+	response.ResponseError
 	Appid      string `xml:"appid"`       //公众账号ID
 	MchId      string `xml:"mch_id"`      //商户号
 	DeviceInfo string `xml:"device_info"` //设备号
@@ -29,15 +29,15 @@ func Unify(body io.Reader) (*UnifyResponse, error) {
 	}
 	defer resp.Body.Close()
 
-	response := new(UnifyResponse)
-	if err := xml.NewDecoder(resp.Body).Decode(response); err != nil {
+	res := new(UnifyResponse)
+	if err := xml.NewDecoder(resp.Body).Decode(res); err != nil {
 		return nil, err
 	}
 
-	if err := response.Check(); err != nil {
+	if err := res.Check(); err != nil {
 		return nil, err
 	}
-	return response, nil
+	return res, nil
 }
 
 type UnifyParam struct {

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/wuwenbao/wechat/util"
+	"github.com/wuwenbao/wechat/internal/response"
 )
 
 //GetPaidUnionId 用户支付完成后，获取该用户的unionid
@@ -28,7 +28,7 @@ func GetPaidUnionId(token, openid string, args ...string) (string, error) {
 	data := new(struct {
 		Unionid string `json:"unionid"`
 	})
-	if err := util.ReadBody(resp.Body, data); err != nil {
+	if err := response.ReadBody(resp.Body, data); err != nil {
 		return "", err
 	}
 	return data.Unionid, nil

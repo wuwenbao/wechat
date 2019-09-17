@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/wuwenbao/wechat/util"
+	"github.com/wuwenbao/wechat/internal/response"
 )
 
 type Session struct {
@@ -22,7 +22,7 @@ func Code2Session(appId, secret, code string) (*Session, error) {
 	}
 	defer resp.Body.Close()
 	res := new(Session)
-	if err := util.ReadBody(resp.Body, res); err != nil {
+	if err := response.ReadBody(resp.Body, res); err != nil {
 		return nil, err
 	}
 	return res, nil

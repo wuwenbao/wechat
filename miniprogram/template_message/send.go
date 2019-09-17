@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/wuwenbao/wechat/util"
-
 	"net/http"
+
+	"github.com/wuwenbao/wechat/internal/response"
 )
 
 const (
@@ -21,6 +21,5 @@ func Send(token string, body io.Reader) error {
 	}
 	defer resp.Body.Close()
 
-	return util.ReadBody(resp.Body, nil)
+	return response.ReadBody(resp.Body, nil)
 }
-

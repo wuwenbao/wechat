@@ -5,11 +5,12 @@ import (
 	"encoding/xml"
 	"io"
 
+	"github.com/wuwenbao/wechat/internal/response"
 	"github.com/wuwenbao/wechat/util"
 )
 
 type RefundResponse struct {
-	util.ReturnError
+	response.ReturnError
 	Appid    string `xml:"appid"`
 	MchId    string `xml:"mch_id"`
 	NonceStr string `xml:"nonce_str"`
