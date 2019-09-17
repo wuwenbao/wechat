@@ -1,7 +1,7 @@
 package work
 
 import (
-	"github.com/wuwenbao/wechat/internal/token"
+	"github.com/wuwenbao/wechat/token"
 )
 
 type Confer interface {
