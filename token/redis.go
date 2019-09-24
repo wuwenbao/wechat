@@ -14,7 +14,7 @@ func (w *redisToken) GetToken(appId, secret string) (token string, err error) {
 	conn := w.db()
 	defer conn.Close()
 
-	valueKey := fmt.Sprintf("AccessToken:%s", appId)
+	valueKey := fmt.Sprintf("AccessToken:%s+%s", appId, secret)
 	token, err = redis.String(conn.Do("GET", valueKey))
 	if err != nil {
 		token, err = GetAccessToken(appId, secret)
