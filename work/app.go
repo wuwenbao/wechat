@@ -13,7 +13,7 @@ func New(c Confer) *App {
 	}
 }
 
-//User 成员相关
+//AppChat 成员相关
 func (a *App) User() *User {
 	return NewUser(a.Confer)
 }
@@ -26,4 +26,9 @@ func (a *App) Message(agentId int) *Message {
 //Checkin 打卡相关
 func (a *App) Checkin() *Checkin {
 	return NewCheckin(a.Confer)
+}
+
+//AppChat 群聊相关
+func (a *App) AppChat() *AppChat {
+	return NewAppChat(a.Confer)
 }

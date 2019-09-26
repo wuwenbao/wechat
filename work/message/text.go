@@ -38,6 +38,19 @@ func (t *text) Reply(corpID, userId string) string {
 	return fmt.Sprintf(format, userId, corpID, time.Now().Unix(), t.Content)
 }
 
+func (t *text) ChatSend(chatid string) string {
+	format := `
+	{
+		"chatid": "%s",
+		"msgtype":"text",
+		"text":{
+			"content" : "%s"
+		},
+		"safe":0
+	}`
+	return fmt.Sprintf(format, chatid, t.Content)
+}
+
 //Text 文本消息
 func Text(content string) *text {
 	return &text{Content: content}
