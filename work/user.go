@@ -33,6 +33,15 @@ func (u *User) SimpleList(departmentId, fetchChild int) (*user.SimpleListRespons
 	return user.SimpleList(token, departmentId, fetchChild)
 }
 
+//Delete 删除成员
+func (u *User) Delete(userId string) error {
+	token, err := u.Token()
+	if err != nil {
+		return err
+	}
+	return user.Delete(token, userId)
+}
+
 func NewUser(c Confer) *User {
 	return &User{
 		Confer: c,
