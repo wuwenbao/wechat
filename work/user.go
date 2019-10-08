@@ -33,6 +33,15 @@ func (u *User) SimpleList(departmentId, fetchChild int) (*user.SimpleListRespons
 	return user.SimpleList(token, departmentId, fetchChild)
 }
 
+//List 获取部门成员详情
+func (u *User) List(departmentId, fetchChild int) (*user.ListResponse, error) {
+	token, err := u.Token()
+	if err != nil {
+		return nil, err
+	}
+	return user.List(token, departmentId, fetchChild)
+}
+
 //Delete 删除成员
 func (u *User) Delete(userId string) error {
 	token, err := u.Token()
