@@ -18,7 +18,7 @@ type ChatInfo struct {
 }
 
 func Get(token, chatid string) (*ResponseGet, error) {
-	apiUrl := fmt.Sprintf(`https://qyapi.weixin.qq.com/cgi-bin/user/get?access_token=%s&userid=%s`, token, chatid)
+	apiUrl := fmt.Sprintf(`https://qyapi.weixin.qq.com/cgi-bin/appchat/get?access_token=%s&chatid=%s`, token, chatid)
 	resp, err := http.Get(apiUrl)
 	if err != nil {
 		return nil, err
